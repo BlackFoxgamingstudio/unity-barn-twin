@@ -1,0 +1,39 @@
+version: "3.9"
+# Sovereign Unity Barn Twin — docker-compose
+# Usage: docker-compose up --build
+
+services:
+  unity-barn-twin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: sovereign-unity-barn-twin:latest
+    container_name: sovereign-unity-barn-twin
+    restart: unless-stopped
+    ports:
+      - "8809:8809"
+    environment:
+      SBB_UNITY_WS_PORT: ${SBB_UNITY_WS_PORT}
+      SBB_SENSOR_MQTT_TOPIC: ${SBB_SENSOR_MQTT_TOPIC}
+      SBB_TWIN_SCENE_ID: ${SBB_TWIN_SCENE_ID}
+      SBB_RECORD_ENABLED: ${SBB_RECORD_ENABLED}
+      SBB_API_KEY: ${SBB_API_KEY:-change-me}
+      SBB_N8N_EVENT_BUS_URL: ${SBB_N8N_EVENT_BUS_URL:-http://host.docker.internal:5678/webhook/event-bus}
+      SERVICE_PORT: 8809
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - ./.data:/app/.data:rw
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8809/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - sbb-platform
+
+networks:
+  sbb-platform:
+    external: true
+    name: sbb-platform-network
