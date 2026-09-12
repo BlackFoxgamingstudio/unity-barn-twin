@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sovereign-unity-barn-twin"
+version = "1.0.0"
+description = "Unity C# physical structure and interactive object simulator. Features collision handling, drag-and-drop inventory placement (`ObjectDrag.cs`, `ShopItemHolder.cs`), and structural facility twin visualization."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Russell Alan Powers", email = "russell@sovereignbizbox.io"}
+]
+keywords = ["sovereign", "unity 3d simulation & digital twins", "microservice", "n8n", "automation"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries"
+]
+dependencies = []
+
+[project.scripts]
+sovereign-unity-barn-twin = "src.cli:main"
